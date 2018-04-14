@@ -7,6 +7,11 @@
 <body bgcolor="cyan">
 <h1>Welcome to my website!</h1>
 <button type="button" onclick="show()">Show him</button>
-<button type="button" onclick="hide()" id="hidden" style="display: none;">Hide me!</button>                     
+<button type="button" onclick="hide()" id="hidden" style="display: none;">Hide me!</button>
+	
+	<form action="PHP/send.php" method="post">
+		Name: <input type="text" name="name" />
+		Favorite animal: <input type="text" name="animal" />
+	</form>
 </body>
 </html>
