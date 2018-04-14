@@ -1,5 +1,5 @@
 # Night-Wisp.github.io
 
-<p>This is going to be my website @ </p><a href="Night-Wisp.github.io>Night-Wisp.github.io"</a><p>!</p>
+<div>This is going to be my website @ </div><a href="Night-Wisp.github.io>Night-Wisp.github.io"</a><div>!</div>
 
-<p>My user account is </p><a href="github.com/Night-Wisp">Night-Wisp</a>
+<div>My user account is </div><a href="github.com/Night-Wisp">Night-Wisp</a>
