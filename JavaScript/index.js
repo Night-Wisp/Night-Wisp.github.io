@@ -6,5 +6,5 @@ document.getElementById("hidden").style.display='none';
 }
 
 function coords(event) {
-  alert ("X: " + event.clientX + "/nY: " + event.clientY + "/nYou clicked: " + event.button);
+  alert ("X: " + event.clientX + "\nY: " + event.clientY + "\nYou clicked: " + event.button);
 }
