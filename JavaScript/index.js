@@ -10,5 +10,5 @@ function coords(event) {
   if (event.shiftKey == 1) {
    shift = "Shift key pressed"; 
   }
-  alert ("X: " + event.clientX + "\nY: " + event.clientY + "\nYou clicked: " + event.button);
+  alert ("X: " + event.clientX + "\nY: " + event.clientY + "\nYou clicked: " + event.button + "\n" + shift);
 }
