@@ -10,8 +10,12 @@
 <button type="button" onclick="hide()" id="hidden" style="display: none;">Hide me!</button>
 	
 	<form action="PHP/send.php" method="post">
-		Name: <input type="text" name="name" />
-		Favorite animal: <input type="text" name="animal" />
+		<fieldset>
+			<legend>Returns what you put in</legend>
+		Name: <input type="text" name="name" /><br />
+		Favorite animal: <input type="text" name="animal" /><br />
+			<input type="submit" value="Submit" />
+		</fieldset>
 	</form>
 </body>
 </html>
