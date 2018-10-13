@@ -2,11 +2,29 @@
 <html>
 <head>
 <title>426567696E6E696E67</title>
+<script>
+  var encodedPass = "q", alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+  var code = ["q", "p", "w", "o", "e", "i", "r", "u", "t", "y", "a", "l", "s", "k", "d", "j", "f", "h", "g", "z", "m", "x", "n", "c", "b", "v"];
+  function go() {
+    var password = document.getElementById("password").value, url = encode(password);
+    if (url == encodedPass) {
+      window.location.assign(window.location.protocol + "//" + window.location.host + "/QrmC5tuV" + url + ".html")
+    }
+  }
+  function encode(item) {
+    var encoded = item.split(), coded = "";
+    for (var i = 0; i < code.length; i++) {
+      coded += code[alpha.indexOf(encoded[i])];
+    }
+    return coded
+  }
+</script>
 </head>
 <body>
 <h2>
 Enter password to continue
 </h2>
 <a href="https://scratch.mit.edu/projects/252311038">&#8203</a>
+  <input type="password" id="password" /> <button type="button" onclick="go()">GO!</button>
 </body>
 </html>
