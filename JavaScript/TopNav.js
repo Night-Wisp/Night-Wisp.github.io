@@ -14,6 +14,6 @@
     nav_bar.appendChild(link);
   });
   
-  var head = document.getElementsByTagName('head'), body = document.getElementsByTagName('body');
+  var head = document.getElementsByTagName('head')[0], body = document.getElementsByTagName('body')[0];
   head.appendChild(style); body.appendChild(nav_bar);
 })();
