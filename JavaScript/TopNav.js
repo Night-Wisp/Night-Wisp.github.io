@@ -11,9 +11,9 @@
     var link = document.createElement('a');
     link.class = "A"; link.href = "night-wisp.github.io/" + url;
     
-    nav_bar.appendElement(link);
+    nav_bar.appendChild(link);
   });
   
   var head = document.getElementsByTagName('head'), body = document.getElementsByTagName('body');
-  head.appendElement(style); body.appendElement(nav_bar);
+  head.appendChild(style); body.appendChild(nav_bar);
 })();
