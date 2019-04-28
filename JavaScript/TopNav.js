@@ -15,6 +15,6 @@
     nav_bar.appendChild(link);
   });
   
-  var head = document.getElementsByTagName('head')[0], body = document.getElementsByTagName('body')[0], body1 = body.children[0];
-  head.appendChild(style); body.insertBefore(nav_bar, body1);
+  var head = document.getElementsByTagName('head')[0], body = document.getElementsByTagName('body')[0];
+  head.appendChild(style); body.insertBefore(nav_bar, body.children[0]);
 })();
