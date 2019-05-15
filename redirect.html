@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>You are being redirected</title>
+
+<script>
+var goURL;
+
+window.addEventListener("load", function() {
+  var data = getURLData();
+  
+  goURL = data.goURL;
+});
+
+function getURLData() {
+  var UD = window.location.href.split("?")[1], data = {};
+  UD = UD.split("&");
+  
+  UD.forEach(function (d) {
+    UD[UD.indexOf(d)] = d.split("=");
+  });
+  UD.forEach(function (d) {
+    data[d[0]] = d[1];
+  });
+  
+  return data;
+}
+
+function loadPage() {
+  if (goURL) {
+    window.location.assign(goURL);
+  } else {
+    setTimeout(loadPage, 10);
+  }
+}
+</script>
+
+<style>
+button {
+  width: 85px;
+  height: 35px;
+  border: solid 1px rgb(80,80,80);
+  margin-left: 11px;
+  margin-right: 11px;
+  
+  background-color: rgb(220,220,220);
+}
+button:hover {
+  background-color: rgb(205,205,205);
+}
+button:active {
+  background-color: rgb(170,170,170)
+}
+</style>
+
+<meta charset="UTF-8" />
+<meta name="description" content="Night_Wisp's website" />
+<meta name="keywords" content="Night_Wisp,Night_Wisp online!,Night-Wisp" />
+<meta name="author" content="Night_Wisp" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="background-color: red;">
+<h1 style="text-align: center;">Warning!</h1>
+<h1 style="text-align: center;">You are about to leave this site!</h1>
+<h3 style="text-align: center;">I am not responsible for other sites and cannot guarantee your safety if you leave this site.</h3>
+<h3 style="text-align: center;">Click "Continue" to continue, click "Go Back" to go back</h3>
+
+<div style="text-align: center;">
+<button onclick="loadPage()">Continue</button>
+<button onclick="history.back()">Go Back</button>
+</div>
+</body>
+</html>
