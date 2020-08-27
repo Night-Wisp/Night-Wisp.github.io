@@ -1,5 +1,5 @@
 (function () {
-  var nav_links = [{url: "index.html", name: "Home"}, {url: "accounts.html", name: "Accounts"}];
+  var nav_links = [{url: "index.html", name: "Home"}, {url: "accounts.html", name: "Accounts"}, {url: "games.html", name: "Games"}];
   
   var style = document.createElement('link');
   style.rel = "stylesheet"; style.type = "text/css"; style.href = "https://night-wisp.github.io/CSS/topbar.css";
