@@ -10,32 +10,56 @@ div#gamelist {
 }
 
 div.box2 {
-  width: 600px;
+  width: 100%;
   height: 250px;
 }
 
-div.gameboxL {
+div.gameboxL, div.gameboxR {
   text-align: center;
-  width: 250px;
-  height: 250px;
+  width: 49%;
+  height: 100%;
   border: solid 1px black;
-  position: absolute;
+  /*position: absolute;
   top: 0px;
-  left: 15px;
+  left: 15px;*/
+
+  display: inline-block;
 }
-div.gameboxR {
+/*div.gameboxR {
   text-align: center;
   width: 250px;
   height: 250px;
   border: solid 1px black;
-  position: absolute;
+  /*position: absolute;
   top: 0px;
   right: 15px;
+}*/
+
+div.gamebox {
+  text-align: center;
+  width: 300px;
+  height: 200px;
+  border: solid 1px black;
+  cursor: pointer;
+
+  display: inline-block;
 }
+
+
+/*div.box2 a {
+  width: 100%;
+  height: 100%;
+}
+div.box2 a:link, div.box2 a:visited {
+  background-color: rgba(255,255,255,0);
+}
+div.box2 a:hover, div.box2 a:active {
+  background-color: rgba(255,255,255,128);
+}*/
 </style>
 
 <script src="JavaScript/TopNav.js"></script>
-<script src="JavaScript/Games.js"></script>
+<script src="JavaScript/games.js"></script>
 
 <meta charset="UTF-8" />
 <meta name="description" content="Night_Wisp's website" />
@@ -43,14 +67,17 @@ div.gameboxR {
 <meta name="author" content="Night_Wisp" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body>
+<body style="background-color: cyan;">
   
 <div id="gamelist">
-  <div class="box2" id="game_box_temp" style="display:none;">
-    <div class="gameboxL">
+  <!--<div class="box2" id="game_box_temp" style="display:none; display:block;">
+    <div class="gameboxL" onclick="document.location=''">
     </div>
     <div class="gameboxR">
     </div>
+  </div>-->
+
+  <div class="gamebox" id="game_box_temp" style="display:none;cursor:pointer;">
   </div>
 </div>
 

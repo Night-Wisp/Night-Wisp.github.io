@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+<!--<script src="../../JavaScript/TopNav.js></script>-->
+
+<!-- Apple home screen installation -->
+<link rel="apple-touch-icon-precomposed" href="images/ios-icon.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ios-icon-ipad.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ios-icon-iphone-retina.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ios-icon-ipad-retina.png" />
+
+<link rel="apple-touch-startup-image" href="images/ios-startup-748x1024.png" media="screen and (min-device-width: 768px) and (orientation: landscape" />
+<link rel="apple-touch-startup-image" href="images/ios-startup-768x1004.png" media="screen and (min-device-width: 768px) and (orientation: portrait" />
+<link rel="apple-touch-startup-image" href="images/ios-startup-320x460.png" media="screen and (min-device-width: 320px)" />
+
+<title>Gem Breaker</title>
+
+<link rel="stylesheet" href="styles/fontfaces.css" />
+<link rel="stylesheet" href="styles/main.css" />
+
+<link rel="stylesheet" href="styles/mobile.css" media="screen and (max-device-width: 768px) and (orientation: portrait), screen and (max-device-width: 1024px) and (orientation: landscape)" />
+
+<script src="scripts/jewel.js"></script>
+<script>
+function loadTop() {
+  loadTopNavBar(TopNavStyle, TopNavBar);
+  var game = document.getElementById("game");
+  game.style.position = "relative";
+}
+window.addEventListener("load", function() {
+  jewel.load("../../JavaScript/TopNav.js", loadTop);
+
+  var load = jewel.load;
+  load("scripts/dom.js");
+  if (jewel.isStandalone()) {
+    load("scripts/screen.splash.js", jewel.setup);
+  } else {
+    load("scripts/screen.install.js", jewel.setup);
+  }
+  load("scripts/screen.main-menu.js");
+  load("scripts/board.js");
+  if (jewel.hasWebWorkers() && jewel.online()) {
+    jewel.preload("scripts/board.worker.js");
+    load("scripts/board.worker-interface.js");
+    jewel.settings.options.useWebWorkers = true;
+  }
+  load("scripts/screen.game.js");
+  load("scripts/display.canvas.js");
+  if (jewel.hasWebGL() && jewel.online()) {
+    load("scripts/webgl.js");
+    load("scripts/display.webgl.js");
+    jewel.settings.options.useWebgl = true;
+  }
+  load("scripts/input.js");
+  load("scripts/requestAnimationFrame.js");
+  load("scripts/screen.exit.js");
+  load("scripts/audio.js");
+  load("scripts/storage.js", function() {
+    jewel.settings.options = jewel.storage.get("options") || jewel.settings.options;
+    if (!jewel.settings.options.useWebgl) {
+      jewel.useCanvasDisplay();
+    }
+    if (!jewel.settings.options.useWebWorkers) {
+      jewel.useNormalBoard();
+    }
+  });
+  load("scripts/screen.high-scores.js");
+  load("scripts/screen.options.js");
+});
+</script>
+
+<script type="x-webGL/x-GL_SL" id="fragment">
+  #ifdef GL_ES newline
+    precision mediump float;
+  #endif newline
+
+  uniform sampler2D uTexture;
+  uniform float uAmbient;
+  uniform vec3 uColor;
+
+  varying float vDiffuse;
+  varying float vSpecular;
+  varying vec3 vNormal;
+
+  void main(void) {
+    float theta = acos(vNormal.y) / 3.14159;
+    float phi = atan(vNormal.z, vNormal.x) / (2.0 * 3.14159);
+    vec2 texCoord = vec2(-phi, theta);
+
+    float texColor = texture2D(uTexture, texCoord).r;
+ 
+    float light = uAmbient + vDiffuse + vSpecular + texColor;
+
+    gl_FragColor = vec4(uColor * light, 0.7);
+  }
+</script>
+<script type="x-webGL/x-GL_SL" id="vector">
+  attribute vec3 aVertex;
+  attribute vec3 aNormal;
+
+  uniform mat4 uModelView;
+  uniform mat4 uProjection;
+  uniform mat3 uNormalMatrix;
+  uniform vec3 uLightPosition;
+
+  uniform float uScale;
+
+  varying float vDiffuse;
+  varying float vSpecular;
+  varying vec4 vPosition;
+  varying vec3 vNormal;
+
+  void main(void) {
+    vPosition = uModelView * vec4(aVertex * uScale, 1.0);
+    vNormal = normalize(aVertex);
+ 
+    vec3 normal = normalize(uNormalMatrix * aNormal);
+    vec3 lightDir = uLightPosition - vPosition.xyz;
+    lightDir = normalize(lightDir);
+    vDiffuse = max(dot(normal, lightDir), 0.0);
+
+    vec3 viewDir = normalize(vPosition.xyz);
+    vec3 reflectDir = reflect(lightDir, normal);
+    float specular = dot(reflectDir, viewDir);
+    vSpecular = pow(specular, 16.0);
+ 
+   gl_Position = uProjection * vPosition;
+  }
+</script>
+
+</head>
+<body style="background-color: cyan;">
+<div id="game">
+<div class="screen" id="splash-screen">
+<h1 class="logo">Gem <br />Breaker</h1>
+<div class="progress">
+<div class="indicator"></div>
+</div>
+<span class="continue">Click to continue</span>
+</div>
+
+<div class="screen" id="install-screen">
+<h1 class="logo">Gem <br />Breaker</h1>
+<div class="progress">
+<div class="indicator"></div>
+</div>
+<span class="continue">Click to continue<br /><br /></span>
+<span>You can install this game to your home screen!</span>
+</div>
+
+<div class="screen" id="main-menu">
+<h2 class="logo">Gem <br />Breaker</h2>
+<ul class="menu">
+<li><button type="button" name="game-screen">Play</button></li>
+<li><button type="button" name="high-scores">Highscores</button></li>
+<li><button type="button" name="options">Options</button></li>
+<li><button type="button" name="exit-screen">Exit</button></li>
+</ul>
+</div>
+
+<div class="screen" id="game-screen">
+<div class="game-board">
+<div class="announcement"></div>
+</div>
+<div class="game-info">
+<label class="level">Level: <span></span></label>
+<label class="score">Score: <span></span></label>
+</div>
+<div class="time"><div class="indicator"></div></div>
+<footer>
+<button class="exit">Exit</button>
+<button class="pause">Pause</button>
+</footer>
+<div class="pause-overlay">
+<div class="pause-text">Game <br />Paused</div>
+</div>
+</div>
+
+<div class="screen" id="high-scores">
+<h2 class="logo">High scores</h2>
+<ol class="score-list">
+</ol>
+<footer>
+  <button name="back">Back</button>
+</footer>
+</div>
+
+<div class="screen" id="options">
+  <div id="webglModeSwitch" style="display: none;">
+    <span class="opt">3D Mode</span>
+    <label class="switch">
+      <input type="checkbox" id="webglMode" />
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <div id="webWorkerSwitch" style="display: none;">
+    <span class="opt">WebWorkers</span>
+    <label class="switch">
+      <input type="checkbox" id="webWorker" />
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <div id="soundSwitch" style="display: block;">
+    <span class="opt">Sound</span>
+    <label class="switch">
+      <input type="checkbox" id="sound" />
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <footer>
+    <button name="back">Back</button>
+  </footer>
+</div>
+
+<div class="screen" id="exit-screen"><h1>ERROR!</h1></div>
+</div>
+</body>
+</html>
