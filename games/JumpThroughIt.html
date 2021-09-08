@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>Jump through it!</title>
+<script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+</head>
+<body>
+<script>
+var config = {
+    type: Phaser.CANVAS,
+    width: 800,
+    height: 450,
+    scale: {
+    	width: 800,
+        height: 450,
+        mode: Phaser.Scale.FIT,
+        min: { width: 400, height: 225 },
+        max: { width: 1920, height: 1080 },
+        autoRound: true,
+        resizeInterval: 750
+    },
+    physics: {
+    	default: 'arcade',
+        arcade: {
+        	gravity: { y: 200 },
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+var player;
+
+function preload ()
+{
+	this.load.setBaseURL('https://raw.githubusercontent.com/Night-Wisp/Night-Wisp.github.io/games_update/games/');
+    
+    this.load.image('sky', 'Horizon-800x450.png');
+    this.load.image('ground', 'Ground-800x50.png');
+    this.load.spritesheet('player', 'DinoSprites%20-%20doux.png', {frameWidth: 24, frameHeight: 24});
+}
+
+function create ()
+{
+	this.add.image(400, 225, 'sky');
+    
+    ground = this.physics.add.staticGroup();
+    ground.create(400, 425, 'ground');
+    
+    player = this.physics.add.sprite(24, 24, 'player');
+    player.setBounce(0);
+    player.setCollideWorldBounds(true);
+    player.scale = 2;
+    player.anims.create({
+    	key: 'run',
+        frames: this.anims.generateFrameNumbers('player', { start: 4, end: 9 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    player.anims.create({
+    	key: 'jump',
+        frames: this.anims.generateFrameNumbers('player', { start: 10, end: 13 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    
+    
+    this.physics.add.collider(player, ground);
+}
+var q = 0;
+function update ()
+{
+	cursors = this.input.keyboard.createCursorKeys();
+    if (q==0) {console.log(cursors); q++;}
+    
+	player.anims.play('run', true);
+    
+    if (cursors.space.isDown && player.body.touching.down) {
+    	player.anims.play('jump', true);
+        player.setVelocityY(-330);
+    }
+}
+</script>
+
+</body>
+</html>
